@@ -11,3 +11,73 @@ County Based Income Level (Data Set 3): The last dataset we will be utilizing is
 
 
 Unique Identifier: For all datasets, they provide a FIPS code for each county. A FIPS code also known as a  Federal Information Processing Code is unique and standardized code to each county and can be used to match each observation to an observation found in a different dataset. This is how we will join datasets together and is our unique identifier. 
+
+
+
+
+
+
+
+
+
+
+## Project Timeline:
+
+### 1. Repository Setup
+**Description:**
+- Create folders for raw data, processed data, Python filtering scripts, and results
+- Create a documentation Markdown file tracking our progress
+
+**Date:** October 16
+**Team Member:** Shuvam
+
+### 2. Data Acquisition
+**Description:**
+- Download the CDC PLACES county data, USDA Food Environment Atlas data, and Census ACS 5-year data
+- Document the data links, release versions, download dates, and checksums
+
+**Date:** October 23
+**Team Members:** Vansh, Mann
+
+### 3. Data Cleaning and Integration
+**Description:**
+- Standardize county FIPS codes across all datasets
+- Handle missing values
+- Select key variables from each dataset
+- Confirm a common key links all datasets, then join them on that key
+
+**Date:** November 6
+**Team Members:** Jacob, Shuvam
+
+### 4. Plan Update and Status Report (Milestone 3)
+**Description:**
+- Revise ProjectPlan.md based on feedback
+- Summarize progress and update the timeline
+- Create the status report release for Milestone 3
+
+**Date:** November 13
+**Team Members:** All
+
+### 5. Analysis and Visualization
+**Description:**
+- Run descriptive statistics, correlations, and regression models to test whether food access explains obesity and diabetes rates
+- Create relevant plots
+
+**Date:** November 13
+**Team Members:** Vansh, Mann
+
+### 6. Workflows and Reproducibility
+**Description:**
+- Write a script that automates the pipeline (acquire, clean, integrate, analyze) so it runs with one command
+- Add instructions for reproducing the results and other relevant documentation
+
+**Date:** December 4
+**Team Members:** Jacob, Shuvam
+
+### 7. Final Report and Submission
+**Description:**
+- Write a final report with findings and limitations
+- Review as a group and submit
+
+**Date:** December 11
+**Team Members:** All

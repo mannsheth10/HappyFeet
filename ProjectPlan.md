@@ -88,3 +88,16 @@ Unique Identifier: For all datasets, they provide a FIPS code for each county. A
 **Date:** December 11
 
 **Team Members:** All
+
+## Constraints:
+The main constraint that we want to discuss is the overlap between data sources and the possible limitations of the underlying models these data sources use. The PLACES County Health Dataset uses a model to estimate the obesity rates – this model is a statistical model that uses age, race, sex, education, and the share of the country below 150% of the poverty line to predict what the obesity rate in that county would be. Thus, we need to make sure to clarify that this dataset uses estimates from a model, and when we are controlling for these variables in our other data sets, we need to make sure we are not double counting variables such as income and education. The USDA Food Atlas Dataset also has its own columns for obesity, diabetes, and income levels. We want to cross-reference these numbers with the model that the PLACES dataset uses to make sure the model is accurate – if it is accurate, it will ensure that all counties have data for obesity and other health issues, even if any physical data has not been collected. Another constraint is the difference of formatting in all of the datasets we have chosen. The PLACES dataset is simply one CSV file, with each row providing data for one county. The Food Atlas dataset comes as an Excel workbook, or a zipped file containing many CSV files. Since the Census ACS Dataset comes from an API, the data will be returned as a JSON file where every value is a “text” type by default. Converting these datasets to standardize their file types and data types will potentially be time consuming and could delay our progress.
+
+## Gaps:
+Since we are only halfway through the semester, there are a couple of gaps in our Project Plan that we feel will be resolved as we continue learning more on this topic. These are our most distinct analysis gaps:
+
+When it comes to data quality, we don’t know how to measure the accuracy of the obesity model of the PLACES dataset when there is no “true” value of obesity for us to compare to. The model outputs a 95% confidence interval for each estimate, so we wanted to understand how to correctly use this confidence interval in our analyses.
+
+We also want to understand how to go about cleaning the values in our dataset to account for factors such as extreme outliers and missing values. We have already seen that some counties have a lot of missing data, and we want to understand how much data needs to be missing before we can make the decision to drop the row/column. We know there are different scripts for data cleaning, but want to make sure we are using the right software.
+
+We have also started learning about the reproducibility and provenance of datasets and want to understand how to provide people with everything they need to replicate our repo exactly. A lot of the data we use is updated very frequently by the government, and we are worried that our data will become outdated and unavailable for download. We want to understand how to collect and store the exact datasets we used, and how we need to record exactly where each file came from.
+

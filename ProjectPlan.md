@@ -1,7 +1,61 @@
 ## Overview:
+For this project we want to look at whether where people live has anything to do with how healthy they are. More specifically, we're trying to see if counties where a lot of people live far from a grocery store also have higher adult obesity and diabetes rates, and if that holds up once income and poverty are taken into account. People assume bad food access and poor health go together, so we wanted to actually test it.
 
+We are combining three county level datasets: the CDC PLACES health estimates, the USDA Food Environment Atlas and income and poverty data from the U.S. Census Bureau. All three have a five digit FIPS code for every county, so that's how we'll join them.
 
-Dataset Information:
+Our plan roughly follows the data lifecycle. First we write scripts that download the raw files and record where each came from. Then we check each dataset's quality before merging, looking at accuracy, completeness, timeliness and consistency. Cleaning comes next, like keeping leading zeros on FIPS codes, converting numbers stored as text and handling missing values. After merging in pandas we check quality again, then run correlations and regressions and make plots. Each step is its own script, tied together with Snakemake or a run-all script so anyone can rerun everything.
+
+## Team:
+
+### 1. Mann Sheth
+**Responsibilities:**
+- Keep track of deadlines and make sure the project plan and status reports stay updated
+- Help download the datasets during data acquisition
+- Lead the statistical analysis, mainly the correlations and regression models
+- Put the final report together once everyone's sections are done
+
+**Role:** Project Coordinator and Analysis Lead
+
+### 2. Vansh Patel
+**Responsibilities:**
+- Write the scripts that download the CDC, USDA and Census data
+- Record where every file came from, including the link, release version, download date and checksum
+- Look into the license and terms of use for each dataset and write up how we are following them
+- Make the plots and maps for the analysis
+
+**Role:** Data Acquisition and Visualization Lead
+
+### 3. Jacob Drucker
+**Responsibilities:**
+- Write the dataset descriptions and upload the first copies of our data, which is already done
+- Standardize the FIPS codes and join the three datasets
+- Run the data quality checks before and after integration, covering accuracy, completeness, timeliness and consistency
+- Work with Shuvam on cleaning, mostly the missing values and outliers
+
+**Role:** Data Integration and Quality Lead
+
+### 4. Shuvam Sinha
+**Responsibilities:**
+- Set up the repository folders for raw data, processed data, scripts and results
+- Build the Snakemake workflow or run-all script that ties all of our scripts together
+- Write the requirements file and the exact steps someone would follow to reproduce our results
+- Write the metadata and data dictionary for the final dataset
+- Help Jacob with data cleaning
+
+**Role:** Workflow and Reproducibility Lead
+
+## Research Questions:
+Our main question is whether counties with worse access to grocery stores have higher rates of adult obesity and diabetes, and whether that relationship still shows up after controlling for income and poverty. To help answer it we came up with a few smaller questions:
+
+Question 1: How strong is the link between the share of a county's population with low food access and its obesity and diabetes rates on their own, before we add anything else in?
+
+Question 2: Once median household income and the poverty rate are added, does food access still matter or does most of the effect turn out to really be about income? And does poor food access hurt more in low income counties than in wealthier ones?
+
+Question 3: Which groups matter the most? The USDA data breaks low access down for low income residents, households without a car, kids and seniors, so which of these lines up most with health outcomes? PLACES also has a self reported food insecurity measure, so is living far from a store or not being able to afford food the bigger factor?
+
+Question 4: Where are the counties that have all three problems at once, meaning low food access, high poverty and high obesity or diabetes, and do they cluster in certain states or regions?
+
+## Dataset Information:
 
 County Based Health Statistics (Data Set 1): Our first dataset is a dataset provided by Data.gov and provides health statistics of different communities across the United States. The data provides health information on 3,143 different counties in all 50 states and the District of Columbia and provides different health statistics about the specific county. The provided information highlights statistics on different health diagnoses like high blood pressure, obesity, diabetes, cancer, and more. These statistics are presented on a county by county basis and give insight as to the percentage of people in an area with different health problems. With this information, we hope to determine the percentage of people who are obese or have diabetes and use this information in unison with the other datasets to answer our research question. Each county has a unique Federal Information Processing Code, also known as a FIPS code. This code is unique to every county in America and can be used as a unique identifier for every county. More information as well as a the downloadable file of the data can be found here: https://data.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2025-releas/i46a-9kgh/data_preview
 
@@ -11,15 +65,6 @@ County Based Income Level (Data Set 3): The last dataset we will be utilizing is
 
 
 Unique Identifier: For all datasets, they provide a FIPS code for each county. A FIPS code also known as a  Federal Information Processing Code is unique and standardized code to each county and can be used to match each observation to an observation found in a different dataset. This is how we will join datasets together and is our unique identifier. 
-
-
-
-
-
-
-
-
-
 
 ## Project Timeline:
 

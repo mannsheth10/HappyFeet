@@ -1,0 +1,11 @@
+{
+  "source_url": "https://api.census.gov/data/2024/acs/acs5",
+  "query": {
+    "get": "NAME,B01003_001E,B19013_001E,B17001_001E,B17001_002E",
+    "for": "county:*"
+  },
+  "dataset": "acs/acs5 2024",
+  "downloaded_utc": "2026-11-12T02:44:41.652164+00:00",
+  "row_count": 3222,
+  "sha256": "fd533f2e9c9cdfa6551340e5262b4e42b2d1a2b10fca83e077f110dbc43cd5d2"
+}

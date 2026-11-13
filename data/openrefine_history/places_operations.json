@@ -1,0 +1,279 @@
+[
+  {
+    "op": "core/column-reorder",
+    "columnNames": [
+      "CountyFIPS",
+      "StateAbbr",
+      "CountyName",
+      "TotalPopulation",
+      "TotalPop18plus",
+      "OBESITY_AdjPrev",
+      "OBESITY_Adj95CI",
+      "FOODINSECU_AdjPrev",
+      "FOODINSECU_Adj95CI",
+      "DIABETES_AdjPrev",
+      "DIABETES_Adj95CI"
+    ],
+    "description": "Reorder columns"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "OBESITY_Adj95CI",
+    "expression": "grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[0])",
+    "onError": "set-to-blank",
+    "newColumnName": "Obesity_Adj95CI_Lower",
+    "columnInsertIndex": 7,
+    "description": "Create column Obesity_Adj95CI_Lower at index 7 based on column OBESITY_Adj95CI using expression grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[0])"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "OBESITY_Adj95CI",
+    "expression": "grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[1])",
+    "onError": "set-to-blank",
+    "newColumnName": "Obesity_Adj95CI_Upper",
+    "columnInsertIndex": 7,
+    "description": "Create column Obesity_Adj95CI_Upper at index 7 based on column OBESITY_Adj95CI using expression grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[1])"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "FOODINSECU_Adj95CI",
+    "expression": "grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[0])",
+    "onError": "set-to-blank",
+    "newColumnName": "Foodinsecu_Adj95CI_Lower",
+    "columnInsertIndex": 11,
+    "description": "Create column Foodinsecu_Adj95CI_Lower at index 11 based on column FOODINSECU_Adj95CI using expression grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[0])"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "FOODINSECU_Adj95CI",
+    "expression": "grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[1])",
+    "onError": "set-to-blank",
+    "newColumnName": "Foodinsecu_Adj95CI_Upper",
+    "columnInsertIndex": 11,
+    "description": "Create column Foodinsecu_Adj95CI_Upper at index 11 based on column FOODINSECU_Adj95CI using expression grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[1])"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "DIABETES_Adj95CI",
+    "expression": "grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[0])",
+    "onError": "set-to-blank",
+    "newColumnName": "Diabetes_Adj95CI_Lower",
+    "columnInsertIndex": 15,
+    "description": "Create column Diabetes_Adj95CI_Lower at index 15 based on column DIABETES_Adj95CI using expression grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[0])"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "DIABETES_Adj95CI",
+    "expression": "grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[1])",
+    "onError": "set-to-blank",
+    "newColumnName": "Diabetes_Adj95CI_Upper",
+    "columnInsertIndex": 15,
+    "description": "Create column Diabetes_Adj95CI_Upper at index 15 based on column DIABETES_Adj95CI using expression grel:toNumber(value.replace(/[()\\s]/, \"\").split(\",\")[1])"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "OBESITY_AdjPrev",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column OBESITY_AdjPrev using expression value.toNumber()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "FOODINSECU_AdjPrev",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column FOODINSECU_AdjPrev using expression value.toNumber()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "DIABETES_AdjPrev",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column DIABETES_AdjPrev using expression value.toNumber()"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "OBESITY_Adj95CI",
+    "description": "Remove column OBESITY_Adj95CI"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "FOODINSECU_Adj95CI",
+    "description": "Remove column FOODINSECU_Adj95CI"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "DIABETES_Adj95CI",
+    "description": "Remove column DIABETES_Adj95CI"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "TotalPopulation",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column TotalPopulation using expression value.toNumber()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "TotalPop18plus",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column TotalPop18plus using expression value.toNumber()"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "CountyFIPS",
+    "newColumnName": "fips",
+    "description": "Rename column CountyFIPS to fips"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "StateAbbr",
+    "newColumnName": "places_state_abbr",
+    "description": "Rename column StateAbbr to places_state_abbr"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "CountyName",
+    "newColumnName": "places_county_name",
+    "description": "Rename column CountyName to places_county_name"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "TotalPopulation",
+    "newColumnName": "places_population",
+    "description": "Rename column TotalPopulation to places_population"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "TotalPop18plus",
+    "newColumnName": "places_population_18plus",
+    "description": "Rename column TotalPop18plus to places_population_18plus"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "OBESITY_AdjPrev",
+    "newColumnName": "places_obesity_pct",
+    "description": "Rename column OBESITY_AdjPrev to places_obesity_pct"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Obesity_Adj95CI_Upper",
+    "newColumnName": "places_obesity_ci_low",
+    "description": "Rename column Obesity_Adj95CI_Upper to places_obesity_ci_low"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Obesity_Adj95CI_Lower",
+    "newColumnName": "places_obesity_ci_high",
+    "description": "Rename column Obesity_Adj95CI_Lower to places_obesity_ci_high"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "FOODINSECU_AdjPrev",
+    "newColumnName": "places_food_insecurity_pct",
+    "description": "Rename column FOODINSECU_AdjPrev to places_food_insecurity_pct"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Foodinsecu_Adj95CI_Upper",
+    "newColumnName": "places_food_insecurity_ci_high",
+    "description": "Rename column Foodinsecu_Adj95CI_Upper to places_food_insecurity_ci_high"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "places_obesity_ci_low",
+    "newColumnName": "places_obesity_ci",
+    "description": "Rename column places_obesity_ci_low to places_obesity_ci"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "places_obesity_ci_high",
+    "newColumnName": "places_obesity_ci_low",
+    "description": "Rename column places_obesity_ci_high to places_obesity_ci_low"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "places_obesity_ci",
+    "newColumnName": "places_obesity_ci_high",
+    "description": "Rename column places_obesity_ci to places_obesity_ci_high"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Foodinsecu_Adj95CI_Lower",
+    "newColumnName": "places_food_insecurity_ci_low",
+    "description": "Rename column Foodinsecu_Adj95CI_Lower to places_food_insecurity_ci_low"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "DIABETES_AdjPrev",
+    "newColumnName": "places_diabetes_pct",
+    "description": "Rename column DIABETES_AdjPrev to places_diabetes_pct"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Diabetes_Adj95CI_Lower",
+    "newColumnName": "places_diabetes_ci_low",
+    "description": "Rename column Diabetes_Adj95CI_Lower to places_diabetes_ci_low"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Diabetes_Adj95CI_Upper",
+    "newColumnName": "places_diabetes_ci_high",
+    "description": "Rename column Diabetes_Adj95CI_Upper to places_diabetes_ci_high"
+  }
+]

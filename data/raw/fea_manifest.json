@@ -1,0 +1,13 @@
+{
+  "source_page": "https://www.ers.usda.gov/data-products/food-environment-atlas/data-access-and-documentation-downloads",
+  "source_url": "https://www.ers.usda.gov/media/5570/food-environment-atlas-csv-files.zip?v=71038",
+  "dataset": "USDA ERS Food Environment Atlas (CSV files)",
+  "downloaded_utc": "2026-11-14T00:51:35.287080+00:00",
+  "size_bytes": 6501079,
+  "files_in_zip": [
+    "StateAndCountyData.csv",
+    "VariableList.csv",
+    "ReadMeFile2025.txt"
+  ],
+  "sha256": "99750f549a3dd84222934dae77767724968a86b36f2cf15b3985bb6f0e863b8d"
+}

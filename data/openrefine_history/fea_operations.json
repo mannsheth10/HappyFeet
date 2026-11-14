@@ -1,0 +1,288 @@
+[
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Variable_Code",
+          "expression": "grel:[\"PCT_LACCESS_POP19\",\"PCT_LACCESS_LOWI19\",\"PCT_LACCESS_HHNV19\",\"PCT_LACCESS_CHILD19\",\"PCT_LACCESS_SENIORS19\",\"GROCPTH20\",\"PCT_DIABETES_ADULTS19\",\"PCT_OBESE_ADULTS22\"].inArray(value)",
+          "columnName": "Variable_Code",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/key-value-columnize",
+    "keyColumnName": "Variable_Code",
+    "valueColumnName": "Value",
+    "noteColumnName": "",
+    "description": "Columnize by key column Variable_Code and value column Value with note column "
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "PCT_OBESE_ADULTS22",
+    "description": "Remove column PCT_OBESE_ADULTS22"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "PCT_LACCESS_POP19",
+    "expression": "grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column PCT_LACCESS_POP19 using expression grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "PCT_LACCESS_LOWI19",
+    "expression": "grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column PCT_LACCESS_LOWI19 using expression grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "PCT_LACCESS_HHNV19",
+    "expression": "grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column PCT_LACCESS_HHNV19 using expression grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "PCT_LACCESS_CHILD19",
+    "expression": "grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column PCT_LACCESS_CHILD19 using expression grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "PCT_LACCESS_SENIORS19",
+    "expression": "grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column PCT_LACCESS_SENIORS19 using expression grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "PCT_DIABETES_ADULTS19",
+    "expression": "grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column PCT_DIABETES_ADULTS19 using expression grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "GROCPTH20",
+    "expression": "grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column GROCPTH20 using expression grel:if(or(value.toNumber()==-9999, value.toNumber()==-8888), null, value.toNumber())"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "FIPS",
+    "expression": "grel:if(value.endsWith(\"000\"), \"state or national summary row\",\nif([\"60\",\"66\",\"69\",\"72\",\"78\"].inArray(value.substring(0,2)), \"territory, out of scope\", null))",
+    "onError": "set-to-blank",
+    "newColumnName": "reason",
+    "columnInsertIndex": 1,
+    "description": "Create column reason at index 1 based on column FIPS using expression grel:if(value.endsWith(\"000\"), \"state or national summary row\",\nif([\"60\",\"66\",\"69\",\"72\",\"78\"].inArray(value.substring(0,2)), \"territory, out of scope\", null))"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "State",
+          "expression": "value",
+          "columnName": "State",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CT",
+                "l": "CT"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "reason",
+    "expression": "grel:\"Connecticut pre-2022 county; PLACES and ACS use planning regions 09110-09190\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column reason using expression grel:\"Connecticut pre-2022 county; PLACES and ACS use planning regions 09110-09190\""
+  },
+  {
+    "op": "core/row-removal",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "reason",
+          "expression": "value",
+          "columnName": "reason",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Connecticut pre-2022 county; PLACES and ACS use planning regions 09110-09190",
+                "l": "Connecticut pre-2022 county; PLACES and ACS use planning regions 09110-09190"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "description": "Remove rows"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "reason",
+    "description": "Remove column reason"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "FIPS",
+    "newColumnName": "fips",
+    "description": "Rename column FIPS to fips"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "State",
+    "newColumnName": "fea_state_abbr",
+    "description": "Rename column State to fea_state_abbr"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "County",
+    "newColumnName": "fea_county_name",
+    "description": "Rename column County to fea_county_name"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "PCT_LACCESS_POP19",
+    "newColumnName": "fea_pct_low_access_2019",
+    "description": "Rename column PCT_LACCESS_POP19 to fea_pct_low_access_2019"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "PCT_LACCESS_LOWI19",
+    "newColumnName": "fea_pct_low_access_lowinc_2019",
+    "description": "Rename column PCT_LACCESS_LOWI19 to fea_pct_low_access_lowinc_2019"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "PCT_LACCESS_HHNV19",
+    "newColumnName": "fea_pct_low_access_no_car_2019",
+    "description": "Rename column PCT_LACCESS_HHNV19 to fea_pct_low_access_no_car_2019"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "PCT_LACCESS_CHILD19",
+    "newColumnName": "fea_pct_low_access_children_2019",
+    "description": "Rename column PCT_LACCESS_CHILD19 to fea_pct_low_access_children_2019"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "PCT_LACCESS_SENIORS19",
+    "newColumnName": "fea_pct_low_access_seniors_2019",
+    "description": "Rename column PCT_LACCESS_SENIORS19 to fea_pct_low_access_seniors_2019"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "PCT_DIABETES_ADULTS19",
+    "newColumnName": "fea_diabetes_pct_2019",
+    "description": "Rename column PCT_DIABETES_ADULTS19 to fea_diabetes_pct_2019"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "GROCPTH20",
+    "newColumnName": "fea_grocery_per_1k_2020",
+    "description": "Rename column GROCPTH20 to fea_grocery_per_1k_2020"
+  },
+  {
+    "op": "core/column-reorder",
+    "columnNames": [
+      "fips",
+      "fea_state_abbr",
+      "fea_county_name",
+      "fea_pct_low_access_2019",
+      "fea_pct_low_access_lowinc_2019",
+      "fea_pct_low_access_no_car_2019",
+      "fea_pct_low_access_children_2019",
+      "fea_pct_low_access_seniors_2019",
+      "fea_grocery_per_1k_2020",
+      "fea_diabetes_pct_2019"
+    ],
+    "description": "Reorder columns"
+  }
+]

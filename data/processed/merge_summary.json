@@ -1,0 +1,29 @@
+{
+  "rows_in": {
+    "places": 3143,
+    "fea": 3136,
+    "acs": 3144
+  },
+  "rows_merged": 3134,
+  "columns_merged": 27,
+  "unmatched_counties": 11,
+  "missing_values": {
+    "places_obesity_pct": 187,
+    "places_obesity_ci_high": 187,
+    "places_obesity_ci_low": 187,
+    "places_food_insecurity_pct": 844,
+    "places_food_insecurity_ci_high": 844,
+    "places_food_insecurity_ci_low": 844,
+    "places_diabetes_pct": 187,
+    "places_diabetes_ci_high": 187,
+    "places_diabetes_ci_low": 187,
+    "fea_pct_low_access_2019": 2,
+    "fea_pct_low_access_lowinc_2019": 2,
+    "fea_pct_low_access_no_car_2019": 2,
+    "fea_pct_low_access_children_2019": 5,
+    "fea_pct_low_access_seniors_2019": 4,
+    "fea_grocery_per_1k_2020": 908,
+    "fea_diabetes_pct_2019": 23,
+    "acs_median_household_income": 1
+  }
+}

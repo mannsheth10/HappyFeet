@@ -1,0 +1,21 @@
+outcome,variable,pearson_r,spearman_rho,n
+Obesity % (PLACES),Diabetes % (PLACES),0.682,0.651,2947
+Obesity % (PLACES),Food insecurity % (PLACES),0.567,0.532,2290
+Obesity % (PLACES),Low access %,-0.057,-0.078,2945
+Obesity % (PLACES),"Low access, low income %",0.138,0.139,2945
+Obesity % (PLACES),"Low access, no car %",0.306,0.413,2945
+Obesity % (PLACES),"Low access, children %",0.209,0.158,2942
+Obesity % (PLACES),"Low access, seniors %",0.205,0.156,2943
+Obesity % (PLACES),Grocery stores per 1k,-0.032,0.002,2083
+Obesity % (PLACES),Median household income,-0.636,-0.586,2946
+Obesity % (PLACES),Poverty rate %,0.519,0.501,2947
+Diabetes % (PLACES),Obesity % (PLACES),0.682,0.651,2947
+Diabetes % (PLACES),Food insecurity % (PLACES),0.938,0.909,2290
+Diabetes % (PLACES),Low access %,-0.05,-0.06,2945
+Diabetes % (PLACES),"Low access, low income %",0.225,0.218,2945
+Diabetes % (PLACES),"Low access, no car %",0.414,0.494,2945
+Diabetes % (PLACES),"Low access, children %",0.076,0.115,2942
+Diabetes % (PLACES),"Low access, seniors %",0.12,0.164,2943
+Diabetes % (PLACES),Grocery stores per 1k,-0.054,-0.079,2083
+Diabetes % (PLACES),Median household income,-0.636,-0.692,2946
+Diabetes % (PLACES),Poverty rate %,0.808,0.765,2947

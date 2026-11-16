@@ -1,20 +1,8 @@
-# HappyFeet: Milestone 3 Status Report
+# Milestone 3 Status Report
 
-**Team:** Mann Sheth, Vansh Patel, Jacob Drucker, Shuvam Sinha
-**Research question:** Do counties with worse access to grocery stores have higher rates of adult obesity and diabetes, and does that relationship hold after controlling for income and poverty? (See [ProjectPlan.md](ProjectPlan.md).)
+Team: Mann Sheth, Vansh Patel, Jacob Drucker, Shuvam Sinha
 
-## Task Overview
-
-| Task (from [ProjectPlan.md](ProjectPlan.md)) | Status | Main artifacts |
-|---|---|---|
-| Repository setup | Completed | `data/raw`, `data/processed`, `scripts`, `docs`, `results` |
-| Data acquisition | Completed | [acquire_census.py](scripts/acquire_census.py), [acquire_places.py](scripts/acquire_places.py), [acquire_fea.py](scripts/acquire_fea.py), manifests in [data/raw](data/raw) |
-| Data quality pre-assessment | Completed | [census_quality_pre.md](docs/census_quality_pre.md), [places_quality_pre.md](docs/places_quality_pre.md), [fea_quality_pre.md](docs/fea_quality_pre.md) |
-| Data cleaning | Completed | [data/processed](data/processed), [OpenRefine histories](data/openrefine_history) |
-| Data integration | Completed | [integrate.py](scripts/integrate.py), [merged_county.csv](data/processed/merged_county.csv) |
-| Analysis and visualization | In progress | [explore.py](scripts/explore.py), [results](results) |
-| Workflow and reproducibility | Not started | [requirements.txt](requirements.txt) |
-| Final report | Not started | |
+Our project looks at whether counties with worse access to grocery stores have higher obesity and diabetes rates, and whether that still holds after accounting for income and poverty. So far we have downloaded and cleaned all three datasets, merged them into one file, and started looking at the data. The sections below go through each part of our [project plan](ProjectPlan.md).
 
 ## Census data acquisition status report
 
@@ -40,85 +28,68 @@ The data comes from the U.S. Department of Agriculture Economic Research Service
 
 I cleaned the dataset in OpenRefine using a copy of the raw file, and saved my work in the file [fea_operations.json](data/openrefine_history/fea_operations.json). The raw file is in a long format with 957,753 rows, one row per county per variable, so the first step was to keep only the rows for the 8 variables we needed. The file was then pivoted with OpenRefine's key-value columnize feature so that each variable became its own column, leaving one row per county, instead of there being one row per variable for each county. Adult obesity was removed because it is only reported at the state level, not the county level (all counties in the same state had the same value). The Atlas placeholder values -9999 and -8888 were replaced with blank cells so it wouldn't affect numerical summaries, and the columns were converted from text to numbers and renamed to a standardized format that we previously determined. The 8 Connecticut counties were removed because the Atlas still uses Connecticut's old county codes, while the PLACES and ACS data use the 9 planning regions that replaced them in 2022, so they could not be joined. The Connecticut rows are listed in [fea_excluded.csv](data/processed/fea_excluded.csv). The final file was exported as a CSV to [fea_clean.csv](data/processed/fea_clean.csv) and checked to confirm that FIPS was a unique, five-character text, with one row for each of the 3,136 counties.
 
-## Data integration status report
+## Merging the datasets
 
-[integrate.py](scripts/integrate.py) checks that FIPS is a unique five-digit code in each cleaned file, adds an `acs_` prefix to the Census columns, derives a poverty rate, and inner-joins the three files into [merged_county.csv](data/processed/merged_county.csv) (**3,134 counties, 27 columns**; counts in [merge_summary.json](data/processed/merge_summary.json)). Eleven counties are dropped and listed in [merge_unmatched.csv](data/processed/merge_unmatched.csv): 9 Connecticut planning regions (not in the Atlas), Loving County, TX (not published by PLACES), and Valdez-Cordova, AK (split in 2019; only the Atlas still uses it).
+After the three datasets were cleaned, I wrote [integrate.py](scripts/integrate.py) to merge them using the FIPS code. The script makes sure each file has one row per county with a 5 digit FIPS code, then joins them together and adds a poverty rate column (people below poverty divided by total people counted). The merged file is [merged_county.csv](data/processed/merged_county.csv) and has 3,134 counties.
 
-## Exploratory analysis
+11 counties didn't show up in all three datasets, so they got dropped. These are listed in [merge_unmatched.csv](data/processed/merge_unmatched.csv). Most of them are the 9 Connecticut planning regions, since the Food Atlas still uses the old Connecticut counties. The other two are Loving County, TX (PLACES doesn't have it) and an old Alaska county code that the Atlas still uses.
 
-[explore.py](scripts/explore.py) writes [descriptive statistics](results/descriptive_stats.csv), [correlations](results/correlations.csv) and three figures. The overall low-access share barely correlates with obesity (r = -0.06) or diabetes (r = -0.05) ([figure](results/fig_low_access_vs_health.png)), low access without a car does moderately (r = 0.31 and 0.41), and poverty and income correlate most strongly (poverty vs diabetes r = 0.81; [heatmap](results/fig_correlation_heatmap.png)). This makes Research Question 2, whether food access matters after controlling for income, central to the regressions. The PLACES and Atlas diabetes estimates agree only moderately (r = 0.52, [figure](results/fig_diabetes_places_vs_fea.png)), so we use PLACES as the outcome and the Atlas figure as a robustness check.
+## Early analysis
+
+I also wrote [explore.py](scripts/explore.py) to get some basic stats and correlations before we start the actual regressions. The outputs are in the [results](results) folder.
+
+Something we didn't expect: the overall low food access percentage has almost no correlation with obesity or diabetes (about -0.05). Income and poverty have much stronger relationships, for example poverty rate and diabetes have a correlation of 0.81. Low access for people without a car was the only food access variable with a moderate correlation (around 0.3 to 0.4). This means the second research question, whether food access still matters after controlling for income, is going to be really important.
+
+We also compared the diabetes rate from PLACES with the diabetes rate from the Food Atlas, which we said we would do in our project plan. They only had a correlation of 0.52, so we decided to use the PLACES number since it's newer.
 
 ## Updated Timeline
 
-| # | Task | Status | Planned date | Revised date | Team members |
-|---|---|---|---|---|---|
-| 1 | Repository setup | Completed | Oct 16 | Oct 16 | Shuvam |
-| 2 | Data acquisition | Completed | Oct 23 | Nov 13 | Vansh, Mann (scripts written by each dataset's owner) |
-| 3 | Data cleaning and integration | Completed | Nov 6 | Nov 15 | Jacob, Shuvam, Mann (cleaning); Vansh (integration) |
-| 4 | Plan update and status report (Milestone 3) | Completed | Nov 13 | Nov 16 | All |
-| 5 | Analysis and visualization | In progress (exploratory analysis done) | Nov 13 | Nov 27 | Vansh, Mann |
-| 6 | Workflow and reproducibility | Not started | Dec 4 | Dec 4 | Jacob, Shuvam |
-| 7 | Final report and submission | Not started | Dec 11 | Dec 11 | All |
+- **Repository Setup**: Completed (Oct 16), Shuvam
+- **Data Acquisition**: Completed (Nov 13), everyone did their own dataset
+- **Data Cleaning and Integration**: Completed (Nov 15), cleaning by Jacob, Mann and Shuvam, merging by Vansh
+- **Status Report (Milestone 3)**: Completed (Nov 16), all
+- **Analysis and Visualization**: In progress, finishing by Nov 27, Vansh and Mann
+- **Workflows and Reproducibility**: Not started, Dec 4, Jacob and Shuvam
+- **Final Report**: Not started, Dec 11, all
 
-Remaining for Task 5: regression models for Research Questions 1–3 (with income and poverty as controls), the subgroup comparison for Question 3, and a county map for Question 4. Task 6 will chain the acquisition scripts, the OpenRefine histories, `integrate.py` and the analysis scripts into one run-all script or Snakemake workflow. [requirements.txt](requirements.txt) now includes pandas and matplotlib for the new scripts.
+Acquisition and cleaning took longer than we planned, so we pushed the analysis back from Nov 13 to Nov 27. The final deadline didn't change. For the analysis we still need to run the regressions and make a map of the counties that have low food access, high poverty and high obesity or diabetes.
 
 ## Changes to Our Project Plan
 
-The research question is unchanged. Changes so far:
+Our research question is the same. The main change is how we split up the work. Instead of two people downloading everything and two people cleaning everything, each person took one dataset and did both. Vansh then did the merging and the first analysis. We also ended up using OpenRefine for cleaning and saved the history files so the steps can be repeated. We dropped the obesity column from the Food Atlas because it was only reported by state, not by county.
 
-- **Each dataset owner acquired and cleaned their own source**, instead of splitting acquisition and cleaning between pairs. Vansh took over integration and exploratory analysis.
-- **Analysis moved from Nov 13 to Nov 27** because acquisition and cleaning took longer than planned. The final deadline is unchanged.
-- **Cleaning used OpenRefine** with saved operation histories, answering the tool question in our plan's Gaps section.
-- **Atlas obesity was dropped** because it is state-level, so PLACES is our only obesity source.
-- **Acquisition scripts record provenance** (URL, download time, SHA-256), addressing our concern about government data changing.
+## Milestone 2 Feedback
 
-## Response to Milestone 2 Feedback
+Our feedback asked whether data quality is consistent across counties, and told us to be specific about which parts of the Food Atlas we are using.
 
-The feedback asked whether data quality is consistent across counties and jurisdictions, and which parts of the Food Environment Atlas we use.
+For the first point, we found that the data quality is not the same everywhere:
 
-### 1. Data quality varies across counties and states
+- PLACES is missing obesity and diabetes for every county in Kentucky and Pennsylvania, and food insecurity for every county in 11 states.
+- About 900 counties are missing the grocery stores per 1,000 people number, and most of them are small counties.
+- The PLACES numbers are estimates, and the estimates for small counties are less certain (their confidence intervals are wider).
+- Some rural counties show 100% low food access because the Atlas uses a 10 mile distance in rural areas instead of 1 mile.
 
-Measured in [merged_county.csv](data/processed/merged_county.csv):
+To deal with this, we will report how many counties are in each model, check whether the counties we drop are different from the ones we keep, and try controlling for state.
 
-- **Missing data clusters by state.** PLACES has no obesity or diabetes estimates for Kentucky or Pennsylvania (187 counties) and no food insecurity estimates for 11 states (844 counties). Grocery stores per 1,000 is missing for 908 mostly small counties (median population 7,854 vs 25,909 overall).
-- **Precision depends on county size.** The median obesity confidence interval is 16.7 points wide in the smallest quarter of counties and 11.4 in the largest.
-- **Jurisdictions differ between sources** in Connecticut, Alaska and Loving County, TX (see integration above).
-- **Rural measures differ.** 48 rural counties report 100% low access because the Atlas uses a 10-mile rural cutoff versus 1 mile in urban areas.
+For the second point, these are the only Food Atlas variables we are using out of about 300:
 
-In the analysis we will report the number of counties in each model, compare dropped and kept counties on income, poverty and access, control for state, and rerun the main models weighted by population and without the least precise counties.
+- Percent of people with low access to a store (our main food access variable)
+- Low access for low income people, households without a car, children, and seniors (for comparing groups in research question 3)
+- Grocery stores per 1,000 people
+- Adult diabetes rate (only to double check the PLACES diabetes numbers)
 
-### 2. Food Environment Atlas variables we use
+## Challenges
 
-We keep 7 of the roughly 300 indicators. Restaurants, food prices, assistance programs and similar indicators are outside our question about physical access to grocery stores.
-
-| Atlas code | Column | Used for |
-|---|---|---|
-| `PCT_LACCESS_POP19` | `fea_pct_low_access_2019` | Main access measure (Q1, Q2) |
-| `PCT_LACCESS_LOWI19` | `fea_pct_low_access_lowinc_2019` | Subgroups (Q3); low-income counties (Q2) |
-| `PCT_LACCESS_HHNV19` | `fea_pct_low_access_no_car_2019` | Subgroups (Q3) |
-| `PCT_LACCESS_CHILD19` | `fea_pct_low_access_children_2019` | Subgroups (Q3) |
-| `PCT_LACCESS_SENIORS19` | `fea_pct_low_access_seniors_2019` | Subgroups (Q3) |
-| `GROCPTH20` | `fea_grocery_per_1k_2020` | Alternative access measure (Q1) |
-| `PCT_DIABETES_ADULTS19` | `fea_diabetes_pct_2019` | Cross-check of PLACES diabetes only |
-
-## Challenges and How We Are Addressing Them
-
-1. **Connecticut county codes** don't match across sources. *Resolved:* excluded the 8 old counties ([fea_excluded.csv](data/processed/fea_excluded.csv)); noted as a limitation.
-2. **Inconsistent formats:** long-format Atlas data, text confidence intervals in PLACES, and placeholder codes (-666666666, -9999, -8888). *Resolved* in OpenRefine.
-3. **Missing data clusters by state.** *Plan:* the steps in the feedback response above.
-4. **Low-access subgroup measures use different distance cutoffs** than the total. *Plan:* compare subgroups only with each other and add a rural/urban indicator.
-5. **Repository clean-up:** early uploads went to wrong folders. *Resolved:* the layout is now `data/raw` → `data/processed` → `results`.
+- Connecticut changed from counties to planning regions in 2022, but the Food Atlas still uses the old counties. We removed those rows and listed them in [fea_excluded.csv](data/processed/fea_excluded.csv).
+- Each dataset was formatted differently. The Atlas had one row per variable instead of one per county, PLACES had confidence intervals stored as text, and the Census data used placeholder numbers like -666666666 for missing values. We fixed all of these in OpenRefine.
+- A lot of data is missing in certain states (see the feedback section above). We can't fill it in, so we plan to be clear about which counties are included in each part of the analysis.
+- Some files were uploaded to the wrong folders early on and had to be deleted and re-uploaded. The folders are organized now.
 
 ## Team Contributions
 
-Each team member wrote and committed their own summary.
-
-### Vansh Patel
-
-I merged the cleaned datasets ([integrate.py](scripts/integrate.py)), wrote the exploratory analysis ([explore.py](scripts/explore.py), [results](results)), and measured how data quality varies across counties to answer our Milestone 2 feedback. In this report I wrote the task overview, integration, analysis, feedback and challenges sections and the timeline table. Full summary: [Vansh_Patel_StatusReport_Contribution.md](cont_files/Vansh_Patel_StatusReport_Contribution.md).
-
-### Other team members
+Each of us wrote and committed our own contribution summary:
 
 - [Mann Sheth](cont_files/Mann_Sheth_StatusReport_Contribution.md)
+- [Vansh Patel](cont_files/Vansh_Patel_StatusReport_Contribution.md)
 - [Jacob Drucker](cont_files/Jacob_Drucker_StatusReport_Contribution.md)
 - [Shuvam Sinha](cont_files/Shuvam_Sinha_StatusReport_Contribution.md)
